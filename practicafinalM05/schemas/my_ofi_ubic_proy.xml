@@ -1,0 +1,60 @@
+<Schema name="Cube_IMF_M05_MYS_ofipobproy">
+  <Dimension type="TimeDimension" visible="true" highCardinality="false" name="Tiempo" caption="(tiempo)">
+    <Hierarchy name="Mes" visible="true" hasAll="true" allMemberName="Todos los Meses" primaryKey="date_pk" caption="(mess)" description="mess">
+      <Table name="dim_date" schema="public">
+      </Table>
+      <Level name="A&#241;o" visible="true" table="dim_date" column="year_number" type="Integer" uniqueMembers="false" levelType="TimeYears" hideMemberIf="Never">
+      </Level>
+      <Level name="Mes" visible="true" column="month_number" type="Integer" uniqueMembers="false" levelType="TimeMonths" hideMemberIf="Never" description="mes">
+      </Level>
+      <Level name="Dia" visible="true" column="day_of_month_number" type="Integer" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never" description="dia">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Fecha" visible="true" hasAll="true" allMemberName="Todas las fechas" primaryKey="date_pk" caption="(fecha)" description="fecha">
+      <Table name="dim_date" schema="public">
+      </Table>
+      <Level name="Fecha" visible="true" column="day_desc" type="String" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never" description="fecha_">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="m05_mys_ofi_pob_proy" visible="true" cache="true" enabled="true">
+    <Table name="valores_ofipobproy_dim" schema="public">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="pk_dim_oficinas_dim_oficina" highCardinality="false" name="Oficina" caption="Oficina">
+      <Hierarchy name="Oficina ID" visible="true" hasAll="true" allMemberName="Todas las Oficinas" primaryKey="pk_dim_oficinas_dim_oficina">
+        <Table name="dim_oficinas_dim" schema="public">
+        </Table>
+        <Level name="N&#250;m Oficina" visible="true" column="oficina" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="pk_dim_cod_proy_dim_cod_proy" highCardinality="false" name="Proyecto">
+      <Hierarchy name="Proyecto ID" visible="true" hasAll="true" allMemberName="Todos los proyectos" primaryKey="pk_dim_cod_proy_dim_cod_proy" caption="proyectos">
+        <Table name="dim_cod_proy_dim" schema="public">
+        </Table>
+        <Level name="Proyecto" visible="true" column="cod_proy" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="pk_dim_poblaciones_provincias_dim_pob_prov" highCardinality="false" name="Ubicaci&#243;n">
+      <Hierarchy name="Poblaci&#243;n" visible="true" hasAll="true" allMemberName="Todas las poblaciones" primaryKey="pk_dim_poblaciones_provincias_dim_pob_prov" description="poblaci&#243;n">
+        <Table name="dim_poblaciones_provincias_dim" schema="public">
+        </Table>
+        <Level name="Poblaci&#243;n" visible="true" column="poblacion" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+      <Hierarchy name="Provincia" visible="true" hasAll="true" allMemberName="Todas las provincias" primaryKey="pk_dim_poblaciones_provincias_dim_pob_prov" description="provincia">
+        <Table name="dim_poblaciones_provincias_dim" schema="public">
+        </Table>
+        <Level name="Provincia" visible="true" column="provincia" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <DimensionUsage source="Tiempo" name="Tiempo D" visible="true" foreignKey="date_pk">
+    </DimensionUsage>
+    <Measure name="Resultado" column="resultado" datatype="Numeric" aggregator="avg" caption="resultado" description="resultado" visible="true">
+    </Measure>
+    <Measure name="Evaluaciones" column="id_evaluacion" datatype="Integer" aggregator="count" caption="cantidad" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
